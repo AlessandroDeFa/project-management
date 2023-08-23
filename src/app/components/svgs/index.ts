@@ -1,0 +1,11 @@
+export { default as SearchIcon } from "./searchIcon.svg";
+export { default as RemoveIcon } from "./remove.svg";
+export { default as ToggleSideBar } from "./closeSidebar.svg";
+export { default as ToggleTheme } from "./toggleTheme.svg";
+export { default as AddButton } from "./addButton.svg";
+export { default as TaskButton } from "./taskButton.svg";
+export { default as NoteButton } from "./note.svg";
+export { default as ListAllButton } from "./list.svg";
+export { default as CheckmarkButton } from "./checkmark.svg";
+export { default as ActionIcon } from "./iconActionButton.svg";
+export { default as DropDownIcon } from "./dropdown.svg";

@@ -1,0 +1,28 @@
+.wrapper {
+  width: 30%;
+  background-color: var(--bg-sidebar);
+  height: 100%;
+  overflow: hidden;
+}
+
+.innerWrapper {
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  height: 100%;
+  border-right: 1px solid var(--bg-border-main);
+}
+
+.wrapperCategories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+  margin-top: 2rem;
+}
+
+.wrapperActionButtons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bg-seperator-sidebar);
+  gap: 1rem;
+}

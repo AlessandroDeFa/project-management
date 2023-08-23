@@ -1,0 +1,78 @@
+.container {
+  flex: 1 auto;
+  min-height: 0px;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.title {
+  font-size: 2.1rem;
+  color: #6F7E88;
+  font-weight: 600;
+}
+
+.wrapperElements {
+  flex: 1 auto;
+  margin-top: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.wrapperElements.circularProgress {
+  margin-top: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2.1rem;
+  color: #6F7E88;
+  font-weight: 600;
+  padding-right: 1.5rem;
+}
+
+
+
+.containerOneCategory {
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.borderOneCategory {
+  position: relative;
+  height: auto;
+}
+
+
+.titleOneCategory {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.titleOneCategory.titleTask {
+  color: #0087FF;
+}
+
+.titleOneCategory.titleNote {
+  color: #FF0000;
+}
+
+.titleOneCategory.titleCompleted {
+  color: #2ed15b;
+}
+
+.titleOneCategory.titleMemo {
+  color: #FFA500;
+}
+
+.titleOneCategory.titleProject {
+  color: #0087FF;
+}

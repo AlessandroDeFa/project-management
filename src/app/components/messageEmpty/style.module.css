@@ -1,0 +1,10 @@
+.message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg-messageEmpty);
+  font-weight: 400;
+  font-size: 1.4rem;
+  white-space: nowrap;
+}

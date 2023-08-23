@@ -1,0 +1,45 @@
+.wrapper {
+  border-radius: .5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #706766;
+  font-weight: 500;
+  font-size: .8rem;
+  padding: .3rem .5rem .3rem .5rem;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  min-width: 190px;
+}
+
+.wrapper.active {
+  background-color: #1656ba;
+  color: #ffff;
+}
+
+.wrapper div:first-child {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.icon {
+  aspect-ratio: 1/1;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 17px;
+  fill: white;
+}
+
+@media only screen and (min-width: 1000px) {
+  .wrapper {
+    min-width: 351px;
+  }
+}

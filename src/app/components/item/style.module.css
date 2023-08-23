@@ -1,0 +1,136 @@
+.wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+
+.containerInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-separator-item);
+  padding-right: 1rem;
+  margin-bottom: .2rem;
+}
+
+.wrapperInfo {
+  font-size: .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: .5rem 0;
+}
+
+.radio {
+  appearance: none;
+  border: 1.5px solid var(--bg-radio-btn);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  cursor: pointer;
+}
+
+.radio.tutti:active {
+  border: 1.5px solid #a0acb5 !important;
+}
+
+.radio.tutti:active.radio.tutti:checked::before {
+  background-color: #a0acb5 !important;
+}
+
+.radio.completati:active {
+  border: 1.5px solid #65ff78 !important;
+}
+
+.radio.completati:active.radio.completati:checked::before {
+  background-color: #65ff78 !important;
+}
+
+
+.radio.completati:checked {
+  border-color: #2ed15b;
+}
+
+.radio.completati:checked:before {
+  background-color: #2ed15b;
+}
+
+.radio.incarichi:checked,
+.radio.progetti:checked {
+  border-color: #0087FF;
+}
+
+.radio.incarichi:checked::before,
+.radio.progetti:checked::before {
+  background-color: #0087FF;
+}
+
+.radio.appunti:checked {
+  border-color: #FF0000;
+}
+
+.radio.appunti:checked::before {
+  background-color: #FF0000;
+}
+
+.radio.tutti:checked {
+  border-color: #6F7E88;
+}
+
+.radio.tutti:checked::before {
+  background-color: #6F7E88;
+}
+
+.radio.promemoria:checked {
+  border-color: #FFA500;
+}
+
+.radio.promemoria:checked::before {
+  background-color: #FFA500;
+}
+
+.radio:checked::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wrapperInfo p:first-child {
+  color: var(--color-text-info);
+}
+
+.wrapperInfo p {
+  color: #9F9A9A;
+}
+
+.expiredDate {
+  color: #FF0000 !important;
+}
+
+.radio.search {
+  cursor: not-allowed;
+}
+
+.radio.search:active {
+  border: 1.5px solid #a0acb5 !important;
+}
+
+.radio.search:active.radio.search:checked::before {
+  background-color: #a0acb5 !important;
+}
+
+.radio.search:checked {
+  border-color: #6F7E88;
+}
+
+.radio.search:checked::before {
+  background-color: #6F7E88;
+}

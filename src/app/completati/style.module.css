@@ -1,0 +1,52 @@
+.container {
+  flex: 1 auto;
+  min-height: 0px;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2.1rem;
+  font-weight: 600;
+}
+
+.wrapperElements {
+  flex: 1 auto;
+  position: relative;
+  margin-top: .7rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.wrapperElements.circularProgress {
+  margin-top: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2.1rem;
+  color: #2ed15b;
+  font-weight: 600;
+  padding-right: 1.5rem;
+}
+
+.completedInfo {
+  color: var(--color-text-completed-info);
+  font-size: .8rem;
+  display: flex;
+  gap: .5rem;
+  margin-top: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--bg-separator-item);
+}
+
+.completedInfo button {
+  all: unset;
+  color: var(--color-delete-completed);
+  cursor: pointer;
+}

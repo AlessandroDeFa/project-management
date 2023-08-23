@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id          String  @id @default(uuid())
+  name        String
+  note        String
+  projectFor  String
+  isCompleted Boolean
+}
+
+model Note {
+  id          String  @id @default(uuid())
+  name        String
+  note        String
+  projectFor  String
+  isCompleted Boolean
+}
+
+model CompletedElement {
+  id            String   @id @default(uuid())
+  name          String
+  note          String
+  projectFor    String?
+  isCompleted   Boolean
+  elementType   String
+  DateCompleted DateTime @default(now())
+}
+
+model Memo {
+  id          String  @id @default(uuid())
+  name        String
+  note        String
+  isCompleted Boolean
+  dueDate     String
+}
+
+model Project {
+  id          String  @id @default(uuid())
+  name        String
+  note        String
+  isCompleted Boolean
+}

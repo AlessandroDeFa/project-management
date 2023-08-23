@@ -1,0 +1,35 @@
+.container {
+  flex: 1 auto;
+  padding-top: 1rem;
+  min-height: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.title {
+  font-size: 2.1rem;
+  color: #FF0000;
+  font-weight: 600;
+}
+
+.wrapperElements {
+  flex: 1;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+}
+
+.wrapperElements.circularProgress {
+  margin-top: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

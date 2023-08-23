@@ -1,0 +1,55 @@
+.AlertDialogOverlay {
+  background-color: rgba(0, 0, 0, .2);
+  position: fixed;
+  inset: 0;
+}
+
+.AlertDialogContent {
+  background-color: var(--bg-alert-dialog);
+  border-radius: .6rem;
+  border: 1px solid var(--bg-border-main);
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 300px;
+  max-height: 230px;
+  padding: 1rem;
+}
+
+.AlertDialogContent:focus {
+  outline: none;
+}
+
+.AlertDialogTitle {
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.AlertDialogDescription {
+  font-size: .75rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.wrapperBtn {
+  display: flex;
+  justify-content: space-between;
+  gap: .8rem;
+}
+
+.button {
+  flex: 1;
+  border: 0;
+  padding: .3rem 0;
+  border-radius: .3rem;
+  background-color: var(--bg-btn-alert-dialog);
+}
+
+.button.remove {
+  background-color: #197ae3;
+  color: #fff;
+}

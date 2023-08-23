@@ -1,0 +1,15 @@
+.line {
+  stroke: var(--bg-loader);
+  stroke-width: 3;
+  animation: fade 800ms linear infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

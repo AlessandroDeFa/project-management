@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .5rem;
+  background-color: var(--bg-searchbar);
+  border: 1px solid var(--bg-border-search);
+  border-radius: .5rem;
+  min-width: 190px;
+}
+
+.container span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+
+}
+
+.icon {
+  width: 15px;
+  fill: var(--bg-icon-input);
+}
+
+.input {
+  background-color: transparent;
+  border: 0;
+  width: 100%;
+  outline: none;
+  color: var(--color-text-input);
+  font-weight: 500;
+}
+
+@media only screen and (min-width: 1000px) {
+  .container {
+    min-width: 351px;
+  }
+}

@@ -1,95 +1,198 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import FormItem from "./components/formItem";
+import Item from "./components/item";
+import ToolBar from "./components/tool-bar";
+import styles from "./page.module.css";
+import { AnimatePresence } from "framer-motion";
+import { useToggleForm } from "./utils/useToggleForm";
+import { AppDispatch, useAppSelector } from "@/redux/store";
+import {
+  moveToCompleted,
+  submitCompleted,
+  submitTask,
+} from "./utils/apiService";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetState } from "@/redux/features/formValues-slice";
+import { TaskData } from "./utils/dataTypes";
+import { getTasks } from "./utils/fetchData";
+import CircularProgress from "./components/circularProgress";
+import MessageEmpty from "./components/messageEmpty";
+import { updateTaskCount } from "@/redux/features/countElements-slice";
 
 export default function Home() {
+  const [formSubmit, setFormSubmit] = useState<boolean>(false);
+  const [formIsOpen, openForm, closeForm] = useToggleForm();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
+
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const [data, setData] = useState<TaskData[]>([]);
+  const name = useAppSelector((state) => state.formValuesReducer.value.name);
+  const note = useAppSelector((state) => state.formValuesReducer.value.note);
+  const projectFor = useAppSelector(
+    (state) => state.formValuesReducer.value.projectFor
+  );
+  const isCompleted = useAppSelector(
+    (state) => state.formValuesReducer.value.isCompleted
+  );
+  const formRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(resetState());
+    const fetchTasks = async () => {
+      try {
+        setIsLoadingItems(true);
+        const tasksData = await getTasks();
+        setData(tasksData);
+        dispatch(updateTaskCount(tasksData.length));
+        setIsLoadingItems(false);
+      } catch (error) {
+        setIsLoadingItems(false);
+        console.error(error);
+      }
+    };
+
+    fetchTasks();
+  }, [formSubmit]);
+
+  const onSubmit = async (event: React.MouseEvent) => {
+    const formValid =
+      name !== "" && note !== "" && projectFor !== "" && projectFor != null;
+    const clickedElement = event.target as HTMLElement;
+    const formWrapper = formRef.current;
+    const clickableAttribute = clickedElement.getAttribute("data-clickable");
+    if (
+      (formWrapper && formWrapper.contains(clickedElement)) ||
+      clickableAttribute === "true"
+    )
+      return;
+    if (formValid) {
+      setIsLoading(true);
+      try {
+        let res;
+        if (isCompleted) {
+          [res] = await Promise.allSettled([
+            submitCompleted({
+              name: name,
+              note: note,
+              projectFor: projectFor,
+              isCompleted: isCompleted,
+              elementType: "Incarico",
+            }),
+            new Promise((resolve) => setTimeout(resolve, 300)),
+          ]);
+        } else {
+          [res] = await Promise.allSettled([
+            submitTask({
+              name: name,
+              note: note,
+              projectFor: projectFor,
+              isCompleted: isCompleted,
+            }),
+            new Promise((resolve) => setTimeout(resolve, 300)),
+          ]);
+        }
+
+        if (res.status != "fulfilled") {
+          console.log(res);
+        }
+
+        setIsLoading(false);
+        closeForm();
+        dispatch(resetState());
+        setFormSubmit(!formSubmit);
+      } catch (error) {
+        console.error("Errore durante la creazione del task:", error);
+        setIsLoading(false);
+      }
+    } else {
+      closeForm();
+      dispatch(resetState());
+    }
+  };
+
+  const moveToCompletedElements = (id: string) => {
+    if (!isWaiting) {
+      setIsWaiting(true);
+      const idtimeout = setTimeout(async () => {
+        try {
+          setIsLoading(true);
+          await moveToCompleted(id, "Incarico");
+          setData(data.filter((item) => item.id !== id));
+          setIsLoading(false);
+          dispatch(updateTaskCount(data.length - 1));
+        } catch (error) {
+          console.error(
+            "Errore durante la completazione dell' elemento:",
+            error
+          );
+        }
+        setIsWaiting(false);
+        setIsLoading(false);
+        setTimeoutId(null);
+      }, 1250);
+      setTimeoutId(idtimeout);
+    } else {
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+      setIsWaiting(false);
+    }
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <main>
+      <ToolBar openForm={openForm} />
+      <div className={styles.container} onClick={(event) => onSubmit(event)}>
+        <div className={styles.flex}>
+          <h1 className={styles.title}>Incarichi</h1>
+          {isLoading && !formIsOpen && (
+            <CircularProgress
+              size={{
+                width: 13,
+                height: 13,
+              }}
             />
-          </a>
+          )}
+        </div>
+        <div
+          className={`${styles.wrapperElements} ${
+            isLoadingItems && data.length === 0 && styles.circularProgress
+          }`}
+        >
+          {isLoadingItems && data.length === 0 && (
+            <CircularProgress size={{ width: 20, height: 20 }} />
+          )}
+
+          <AnimatePresence initial={false}>
+            {data.map((task) => {
+              return (
+                <Item
+                  key={task.id}
+                  data={task}
+                  handleClick={() => moveToCompletedElements(task.id)}
+                />
+              );
+            })}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {!isLoadingItems && !formIsOpen && data.length === 0 && (
+              <MessageEmpty message="Non hai incarichi" />
+            )}
+          </AnimatePresence>
+          <div ref={formRef}>
+            <AnimatePresence initial={false}>
+              {formIsOpen && !isLoadingItems && (
+                <FormItem isLoading={isLoading} />
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }

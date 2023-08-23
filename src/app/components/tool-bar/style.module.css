@@ -1,0 +1,32 @@
+.wrapper {
+  padding: 0.2rem 1.5rem 0.2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: .3rem;
+  border-radius: .3rem;
+  transition: all .3s ease;
+}
+
+.wrapper button:hover {
+  background-color: var(--bg-hover-icon);
+}
+
+.wrapper div:nth-of-type(2) {
+  display: flex;
+  gap: 1rem;
+}
+
+.icon {
+  width: 17px;
+  fill: var(--bg-icon-toolbar);
+}

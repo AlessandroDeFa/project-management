@@ -1,0 +1,64 @@
+.menuContent {
+  min-width: 150px;
+  background-color: var(--bg-menu-content);
+  border-radius: .2rem;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--border-menu-content);
+  padding: .2rem;
+  max-height: 185px;
+  overflow-y: scroll;
+}
+
+.menuItem {
+  padding: .3rem;
+  user-select: none;
+  outline: none;
+  color: var(--color-text-menu);
+  font-size: .8rem;
+  border-radius: .2rem;
+
+}
+
+.menuItem[data-highlighted] {
+  background-color: #1957be;
+  color: #ffff;
+}
+
+.container {
+  display: flex;
+  max-width: 140px;
+}
+
+.triggerMenu {
+  flex: 0 1 auto;
+  min-width: 5.5rem;
+  max-width: 140px;
+  background-color: var(--bg-trigger-menu);
+  border: 0;
+  color: var(--color-text-trigger-menu);
+  padding: .3rem;
+  border-radius: .3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+  cursor: pointer;
+  gap: .5rem;
+
+}
+
+.triggerMenu:hover {
+  background-color: var(--bg-hover-trigger-menu);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon svg {
+  width: 11px;
+  fill: var(--color-text-trigger-menu)
+}

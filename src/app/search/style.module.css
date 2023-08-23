@@ -1,0 +1,45 @@
+.container {
+  flex: 1 auto;
+  padding-top: 1rem;
+  min-height: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.title {
+  font-size: 2.1rem;
+  color: #5b6169;
+  font-weight: 600;
+}
+
+.wrapperElements {
+  flex: 1;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+}
+
+.wrapperElements.circularProgress {
+  margin-top: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.completedInfo {
+  color: var(--color-text-completed-info);
+  font-size: .8rem;
+  display: flex;
+  gap: .5rem;
+  margin-top: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--bg-separator-item);
+}

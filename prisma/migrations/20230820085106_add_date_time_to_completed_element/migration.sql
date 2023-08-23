@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "CompletedElement" ADD COLUMN     "DateCompleted" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

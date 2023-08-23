@@ -1,0 +1,137 @@
+.wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.containerInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-separator-item);
+  padding-right: 1rem;
+}
+
+.wrapperInfo {
+  font-size: .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: .5rem 0;
+}
+
+.radio {
+  appearance: none;
+  border: 1.5px solid var(--bg-radio-btn);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  cursor: pointer;
+}
+
+.radio:checked::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radio.incarichi:checked {
+  border-color: #0087FF;
+}
+
+.radio.incarichi:checked::before {
+  background-color: #0087FF;
+}
+
+.radio.appunti:checked {
+  border-color: #FF0000;
+}
+
+.radio.appunti:checked::before {
+  background-color: #FF0000;
+}
+
+.radio.tutti:checked {
+  border-color: #6F7E88;
+}
+
+.radio.tutti:checked::before {
+  background-color: #6F7E88;
+}
+
+.radio.progetti:checked {
+  border-color: #0087FF;
+}
+
+.radio.progetti:checked::before {
+  background-color: #0087FF;
+}
+
+
+.radio.promemoria:checked {
+  border-color: #FFA500;
+}
+
+.radio.promemoria:checked::before {
+  background-color: #FFA500;
+}
+
+.wrapperInfo input:first-child {
+  color: var(--color-text-input) !important;
+}
+
+.wrapperInfo input {
+  background-color: transparent;
+  border: 0;
+  color: #9F9A9A;
+  outline: none;
+}
+
+.wrapperInfo p {
+  color: #9F9A9A;
+}
+
+.wrapperInfo select {
+  width: 10%;
+}
+
+.wrapperIndicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.wrapperIndicatorActionBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.ProgressIndicator {
+  color: gray;
+}
+
+.datepicker {
+  background-color: var(--bg-trigger-menu) !important;
+  color: var(--color-text-trigger-menu) !important;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  width: 7.5rem;
+}
+
+.datepicker::-webkit-calendar-picker-indicator {
+  color-scheme: var(--color-datePicker);
+  display: block;
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
