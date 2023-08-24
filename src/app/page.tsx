@@ -30,6 +30,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+  const [shouldUpdateCount, setShouldUpdateCount] = useState(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -124,22 +126,33 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (shouldUpdateCount) {
+      dispatch(updateTaskCount(data.length));
+      setShouldUpdateCount(false);
+    }
+  }, [data, shouldUpdateCount]);
+
   const moveToCompletedElements = (id: string) => {
-    if (!isWaiting) {
+    if (isLoading) {
+      return;
+    }
+
+    if (!isWaiting || id !== lastClickedId) {
       setIsWaiting(true);
+      setLastClickedId(id);
       const idtimeout = setTimeout(async () => {
         try {
           setIsLoading(true);
           await moveToCompleted(id, "Incarico");
-          setData(data.filter((item) => item.id !== id));
-          setIsLoading(false);
-          dispatch(updateTaskCount(data.length - 1));
+          setData((prevData) => prevData.filter((item) => item.id !== id));
         } catch (error) {
           console.error(
             "Errore durante la completazione dell' elemento:",
             error
           );
         }
+        setShouldUpdateCount(true);
         setIsWaiting(false);
         setIsLoading(false);
         setTimeoutId(null);
@@ -184,6 +197,7 @@ export default function Home() {
                 <Item
                   key={task.id}
                   data={task}
+                  isLoading={isLoading}
                   handleClick={() => moveToCompletedElements(task.id)}
                 />
               );

@@ -30,6 +30,8 @@ export default function Progetti() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(false);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+  const [shouldUpdateCount, setShouldUpdateCount] = useState(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -123,22 +125,33 @@ export default function Progetti() {
     }
   };
 
+  useEffect(() => {
+    if (shouldUpdateCount) {
+      dispatch(updateProjectsCount(data.length));
+      setShouldUpdateCount(false);
+    }
+  }, [data, shouldUpdateCount]);
+
   const moveToCompletedElements = (id: string) => {
-    if (!isWaiting) {
+    if (isLoading) {
+      return;
+    }
+    if (!isWaiting || id !== lastClickedId) {
       setIsWaiting(true);
+      setLastClickedId(id);
+
       const idtimeout = setTimeout(async () => {
         try {
           setIsLoading(true);
           await moveToCompleted(id, "Progetto");
-          setData(data.filter((item) => item.id !== id));
-          setIsLoading(false);
-          dispatch(updateProjectsCount(data.length - 1));
+          setData((prevData) => prevData.filter((item) => item.id !== id));
         } catch (error) {
           console.error(
             "Errore durante la completazione dell' elemento:",
             error
           );
         }
+        setShouldUpdateCount(true);
         setIsWaiting(false);
         setIsLoading(false);
         setTimeoutId(null);
@@ -183,6 +196,7 @@ export default function Progetti() {
                 <Item
                   key={project.id}
                   data={project}
+                  isLoading={isLoading}
                   handleClick={() => moveToCompletedElements(project.id)}
                 />
               );

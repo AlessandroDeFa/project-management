@@ -37,6 +37,8 @@ export default function Tutti() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+  const [shouldUpdateCount, setShouldUpdateCount] = useState(false);
 
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [notes, setNote] = useState<NoteData[]>([]);
@@ -115,34 +117,44 @@ export default function Tutti() {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (shouldUpdateCount) {
+      dispatch(updateCompletedCount(completed.length));
+      dispatch(updateTaskCount(tasks.length));
+      dispatch(updateNoteCount(notes.length));
+      dispatch(updateMemoCount(memos.length));
+      dispatch(updateProjectsCount(projects.length));
+    }
+  }, [tasks, notes, memos, projects]);
+
   const moveToCompletedElements = (id: string, elementType: string) => {
-    if (!isWaiting) {
+    if (isLoading) {
+      return;
+    }
+    if (!isWaiting || id !== lastClickedId) {
       setIsWaiting(true);
+      setLastClickedId(id);
+
       const idtimeout = setTimeout(async () => {
         try {
           setIsLoading(true);
           await moveToCompleted(id, elementType);
           switch (elementType) {
             case "Incarico":
-              setTasks(tasks.filter((item) => item.id !== id));
-              dispatch(updateTaskCount(tasks.length - 1));
+              setTasks((prevData) => prevData.filter((item) => item.id !== id));
               break;
             case "Appunti":
-              setNote(notes.filter((item) => item.id !== id));
-              dispatch(updateNoteCount(notes.length - 1));
+              setNote((prevData) => prevData.filter((item) => item.id !== id));
               break;
             case "Promemoria":
-              setMemo(memos.filter((item) => item.id !== id));
-              dispatch(updateMemoCount(memos.length - 1));
+              setMemo((prevData) => prevData.filter((item) => item.id !== id));
               break;
             case "Progetto":
-              setProjects(projects.filter((item) => item.id !== id));
-              dispatch(updateProjectsCount(projects.length - 1));
+              setProjects((prevData) =>
+                prevData.filter((item) => item.id !== id)
+              );
               break;
           }
-
-          setIsLoading(false);
-          dispatch(updateCompletedCount(completed.length + 1));
           setRefreshElements(!refreshElements);
         } catch (error) {
           console.error(
@@ -150,6 +162,8 @@ export default function Tutti() {
             error
           );
         }
+        setShouldUpdateCount(true);
+
         setIsWaiting(false);
         setIsLoading(false);
         setTimeoutId(null);
@@ -211,6 +225,7 @@ export default function Tutti() {
                       <Item
                         key={task.id}
                         data={task}
+                        isLoading={isLoading}
                         handleClick={() =>
                           moveToCompletedElements(task.id, "Incarico")
                         }
@@ -241,6 +256,7 @@ export default function Tutti() {
                       <Item
                         key={note.id}
                         data={note}
+                        isLoading={isLoading}
                         handleClick={() =>
                           moveToCompletedElements(note.id, "Appunti")
                         }
@@ -271,6 +287,7 @@ export default function Tutti() {
                       <Item
                         key={el.id}
                         data={el}
+                        isLoading={isLoading}
                         handleClick={() => deleteCompletedElement(el.id)}
                       />
                     ))}
@@ -299,6 +316,7 @@ export default function Tutti() {
                       <Item
                         key={memo.id}
                         data={memo}
+                        isLoading={isLoading}
                         handleClick={() =>
                           moveToCompletedElements(memo.id, "Promemoria")
                         }
@@ -329,6 +347,7 @@ export default function Tutti() {
                       <Item
                         key={project.id}
                         data={project}
+                        isLoading={isLoading}
                         handleClick={() =>
                           moveToCompletedElements(project.id, "Progetto")
                         }

@@ -32,6 +32,8 @@ export default function Appunti() {
   const formRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<NoteData[]>([]);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+  const [shouldUpdateCount, setShouldUpdateCount] = useState(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -127,22 +129,33 @@ export default function Appunti() {
     }
   };
 
+  useEffect(() => {
+    if (shouldUpdateCount) {
+      dispatch(updateNoteCount(data.length));
+      setShouldUpdateCount(false);
+    }
+  }, [data, shouldUpdateCount]);
+
   const moveToCompletedElements = (id: string) => {
-    if (!isWaiting) {
+    if (isLoading) {
+      return;
+    }
+    if (!isWaiting || id !== lastClickedId) {
       setIsWaiting(true);
+      setLastClickedId(id);
+
       const idtimeout = setTimeout(async () => {
         try {
           setIsLoading(true);
           await moveToCompleted(id, "Appunti");
-          setData(data.filter((item) => item.id !== id));
-          setIsLoading(false);
-          dispatch(updateNoteCount(data.length - 1));
+          setData((prevData) => prevData.filter((item) => item.id !== id));
         } catch (error) {
           console.error(
             "Errore durante la completazione dell' elemento:",
             error
           );
         }
+        setShouldUpdateCount(true);
         setIsWaiting(false);
         setIsLoading(false);
         setTimeoutId(null);
@@ -187,6 +200,7 @@ export default function Appunti() {
                 <Item
                   key={note.id}
                   data={note}
+                  isLoading={isLoading}
                   handleClick={() => moveToCompletedElements(note.id)}
                 />
               );

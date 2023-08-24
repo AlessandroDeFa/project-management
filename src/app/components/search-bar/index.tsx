@@ -35,7 +35,6 @@ export default function SearchBar() {
           setIsSearching(true);
           const res = await getResultsFromQuery(query);
           await dispatch(actionDispatch(res));
-          console.log(res);
         } catch (error) {
           console.error(error);
           setErrorDialog(true);
