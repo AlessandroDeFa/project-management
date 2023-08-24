@@ -19,6 +19,7 @@ import { getProjects } from "../utils/fetchData";
 import CircularProgress from "../components/circularProgress";
 import MessageEmpty from "../components/messageEmpty";
 import {
+  updateAllElementsCount,
   updateCompletedCount,
   updateProjectsCount,
 } from "@/redux/features/countElements-slice";
@@ -47,6 +48,9 @@ export default function Progetti() {
   );
   const completedCount = useAppSelector(
     (state) => state.countElementsReducer.value.countCompleted
+  );
+  const allElementsCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countAllElements
   );
 
   const formRef = useRef<HTMLDivElement>(null);
@@ -108,9 +112,8 @@ export default function Progetti() {
           ]);
         }
 
-        if (res.status != "fulfilled") {
-          console.log("errore");
-        }
+        dispatch(updateAllElementsCount(allElementsCount + 1));
+
         setIsLoading(false);
         closeForm();
         setFormSubmit(!formSubmit);

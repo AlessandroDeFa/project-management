@@ -5,10 +5,6 @@ import { motion } from "framer-motion";
 import { elIn } from "./anim";
 import { AllElements } from "@/app/utils/dataTypes";
 import { useState } from "react";
-import { moveToCompleted } from "@/app/utils/apiService";
-import { updateTaskCount } from "@/redux/features/countElements-slice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
 
 interface ClassMap {
   incarichi: string;
@@ -23,7 +19,7 @@ interface ClassMap {
 interface ItemProps {
   handleClick?: () => void;
   data: AllElements;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export default function Item({ data, handleClick, isLoading }: ItemProps) {
@@ -38,11 +34,6 @@ export default function Item({ data, handleClick, isLoading }: ItemProps) {
     isCompleted,
   } = data;
   const [completeEl, setCompleteEl] = useState<boolean>(false);
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const classMap: ClassMap = {
     incarichi: styles.incarichi,

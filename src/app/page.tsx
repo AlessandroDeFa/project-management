@@ -19,6 +19,7 @@ import { getTasks } from "./utils/fetchData";
 import CircularProgress from "./components/circularProgress";
 import MessageEmpty from "./components/messageEmpty";
 import {
+  updateAllElementsCount,
   updateCompletedCount,
   updateTaskCount,
 } from "@/redux/features/countElements-slice";
@@ -45,6 +46,10 @@ export default function Home() {
   const completedCount = useAppSelector(
     (state) => state.countElementsReducer.value.countCompleted
   );
+  const allElementsCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countAllElements
+  );
+
   const isCompleted = useAppSelector(
     (state) => state.formValuesReducer.value.isCompleted
   );
@@ -109,9 +114,8 @@ export default function Home() {
           ]);
         }
 
-        if (res.status != "fulfilled") {
-          console.log(res);
-        }
+        dispatch(updateAllElementsCount(allElementsCount + 1));
+
         setIsLoading(false);
         closeForm();
         dispatch(resetState());

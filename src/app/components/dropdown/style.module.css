@@ -8,7 +8,7 @@
   border: 1px solid var(--border-menu-content);
   padding: .2rem;
   max-height: 185px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .menuItem {

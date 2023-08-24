@@ -19,6 +19,7 @@ import { MemoData } from "../utils/dataTypes";
 import CircularProgress from "../components/circularProgress";
 import { getMemo } from "../utils/fetchData";
 import {
+  updateAllElementsCount,
   updateCompletedCount,
   updateMemoCount,
 } from "@/redux/features/countElements-slice";
@@ -46,6 +47,10 @@ export default function Promemoria() {
   const completedCount = useAppSelector(
     (state) => state.countElementsReducer.value.countCompleted
   );
+  const allElementsCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countAllElements
+  );
+
   const dueDate = useAppSelector(
     (state) => state.formValuesReducer.value.duedate
   );
@@ -109,9 +114,8 @@ export default function Promemoria() {
           ]);
         }
 
-        if (res.status != "fulfilled") {
-          console.log(res);
-        }
+        dispatch(updateAllElementsCount(allElementsCount + 1));
+
         setIsLoading(false);
         closeForm();
         setFormSubmit(!formSubmit);

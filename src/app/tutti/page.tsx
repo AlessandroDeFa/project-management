@@ -104,6 +104,9 @@ export default function Tutti() {
   }, [refreshElements]);
 
   const deleteCompletedElement = async (id: string) => {
+    if (isLoading) {
+      return;
+    }
     try {
       setIsLoading(true);
       await deletedSelectedElement(id);
@@ -287,7 +290,6 @@ export default function Tutti() {
                       <Item
                         key={el.id}
                         data={el}
-                        isLoading={isLoading}
                         handleClick={() => deleteCompletedElement(el.id)}
                       />
                     ))}
