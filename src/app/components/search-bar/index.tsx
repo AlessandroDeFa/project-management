@@ -8,9 +8,11 @@ import { updateSearchValues } from "@/redux/features/queryValues-slice";
 import { AllElements } from "@/app/utils/dataTypes";
 import { usePathname, useRouter } from "next/navigation";
 import CircularProgress from "../circularProgress";
+import ErrorDialog from "../errorMessage";
 
 export default function SearchBar() {
   const [query, setQuery] = useState<string>("");
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const { values } = useAppSelector((state) => state.queryValuesReducer.value);
@@ -29,9 +31,16 @@ export default function SearchBar() {
   useEffect(() => {
     const timeoutId = setTimeout(async () => {
       if (query.length !== 0) {
-        setIsSearching(true);
-        const res = await getResultsFromQuery(query);
-        await dispatch(actionDispatch(res));
+        try {
+          setIsSearching(true);
+          const res = await getResultsFromQuery(query);
+          await dispatch(actionDispatch(res));
+          console.log(res);
+        } catch (error) {
+          console.error(error);
+          setErrorDialog(true);
+        }
+
         setIsSearching(false);
       } else if (currentPath === "/search") {
         router.back();
@@ -50,6 +59,8 @@ export default function SearchBar() {
 
   return (
     <div className={styles.container}>
+      <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
+
       <span>
         <SearchIcon className={styles.icon} />
       </span>

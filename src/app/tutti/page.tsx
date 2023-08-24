@@ -28,6 +28,7 @@ import {
 } from "@/redux/features/countElements-slice";
 import { deletedSelectedElement, moveToCompleted } from "../utils/apiService";
 import { elIn } from "../components/item/anim";
+import ErrorDialog from "../components/errorMessage";
 
 export default function Tutti() {
   const [refreshElements, setRefreshElements] = useState<boolean>(false);
@@ -35,6 +36,7 @@ export default function Tutti() {
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [notes, setNote] = useState<NoteData[]>([]);
@@ -72,6 +74,10 @@ export default function Tutti() {
           promises.map((p) => p.promise)
         );
 
+        if (settledResults.some((result) => result.status === "rejected")) {
+          setErrorDialog(true);
+        }
+
         let totalCount = 0;
 
         settledResults.forEach((result, index) => {
@@ -88,6 +94,7 @@ export default function Tutti() {
       } catch (error) {
         setIsLoadingItems(false);
         console.error(error);
+        setErrorDialog(true);
       }
     };
 
@@ -114,7 +121,7 @@ export default function Tutti() {
       const idtimeout = setTimeout(async () => {
         try {
           setIsLoading(true);
-          const res = await moveToCompleted(id, elementType);
+          await moveToCompleted(id, elementType);
           switch (elementType) {
             case "Incarico":
               setTasks(tasks.filter((item) => item.id !== id));
@@ -137,7 +144,6 @@ export default function Tutti() {
           setIsLoading(false);
           dispatch(updateCompletedCount(completed.length + 1));
           setRefreshElements(!refreshElements);
-          return res;
         } catch (error) {
           console.error(
             "Errore durante la completazione dell' elemento:",
@@ -179,10 +185,12 @@ export default function Tutti() {
             isLoadingItems && allArraysEmpty && styles.circularProgress
           }`}
         >
+          <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
+
           {isLoadingItems && allArraysEmpty && (
             <CircularProgress size={{ width: 20, height: 20 }} />
           )}
-          <AnimatePresence initial={false}>
+          <AnimatePresence>
             {tasks.length !== 0 && (
               <motion.div
                 key={"Tasks"}

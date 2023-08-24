@@ -10,17 +10,26 @@ import CircularProgress from "../components/circularProgress";
 import MessageEmpty from "../components/messageEmpty";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
-import { updateCompletedCount } from "@/redux/features/countElements-slice";
+import {
+  updateAllElementsCount,
+  updateCompletedCount,
+} from "@/redux/features/countElements-slice";
 import AlertDialogCompleted from "../components/alertDialog";
 import { deletedSelectedElement } from "../utils/apiService";
+import ErrorDialog from "../components/errorMessage";
 
 export default function Completati() {
   const [data, setData] = useState<CompletedElement[]>([]);
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   const countCompleted = useAppSelector(
     (state) => state.countElementsReducer.value.countCompleted
+  );
+
+  const countAllElements = useAppSelector(
+    (state) => state.countElementsReducer.value.countAllElements
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -36,6 +45,7 @@ export default function Completati() {
       } catch (error) {
         console.error(error);
         setIsLoadingItems(false);
+        setErrorDialog(true);
       }
     };
 
@@ -43,12 +53,16 @@ export default function Completati() {
   }, []);
 
   const deleteCompletedElement = async (id: string) => {
+    if (isLoading) {
+      return;
+    }
     try {
       setIsLoading(true);
       await deletedSelectedElement(id);
       setData(data.filter((item) => item.id !== id));
       setIsLoading(false);
       dispatch(updateCompletedCount(data.length - 1));
+      dispatch(updateAllElementsCount(countAllElements - 1));
     } catch (error) {
       console.error("Errore durante l'eliminazione:", error);
     }
@@ -89,6 +103,8 @@ export default function Completati() {
             isLoadingItems && styles.circularProgress
           }`}
         >
+          <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
+
           {isLoadingItems && (
             <CircularProgress size={{ width: 20, height: 20 }} />
           )}

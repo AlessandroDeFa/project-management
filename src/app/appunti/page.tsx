@@ -18,7 +18,11 @@ import { NoteData } from "../utils/dataTypes";
 import { getNote } from "../utils/fetchData";
 import CircularProgress from "../components/circularProgress";
 import MessageEmpty from "../components/messageEmpty";
-import { updateNoteCount } from "@/redux/features/countElements-slice";
+import {
+  updateCompletedCount,
+  updateNoteCount,
+} from "@/redux/features/countElements-slice";
+import ErrorDialog from "../components/errorMessage";
 
 export default function Appunti() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
@@ -27,6 +31,7 @@ export default function Appunti() {
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
   const formRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<NoteData[]>([]);
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -38,7 +43,9 @@ export default function Appunti() {
   const projectFor = useAppSelector(
     (state) => state.formValuesReducer.value.projectFor
   );
-
+  const completedCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countCompleted
+  );
   const isCompleted = useAppSelector(
     (state) => state.formValuesReducer.value.isCompleted
   );
@@ -57,6 +64,7 @@ export default function Appunti() {
       } catch (error) {
         setIsLoadingItems(false);
         console.error(error);
+        setErrorDialog(true);
       }
     };
 
@@ -89,6 +97,7 @@ export default function Appunti() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
+          dispatch(updateCompletedCount(completedCount + 1));
         } else {
           [res] = await Promise.allSettled([
             submitNote({
@@ -167,6 +176,8 @@ export default function Appunti() {
             isLoadingItems && data.length === 0 && styles.circularProgress
           }`}
         >
+          <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
+
           {isLoadingItems && data.length === 0 && (
             <CircularProgress size={{ width: 20, height: 20 }} />
           )}

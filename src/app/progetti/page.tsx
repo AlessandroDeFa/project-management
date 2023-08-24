@@ -18,13 +18,18 @@ import { ProjectData } from "../utils/dataTypes";
 import { getProjects } from "../utils/fetchData";
 import CircularProgress from "../components/circularProgress";
 import MessageEmpty from "../components/messageEmpty";
-import { updateProjectsCount } from "@/redux/features/countElements-slice";
+import {
+  updateCompletedCount,
+  updateProjectsCount,
+} from "@/redux/features/countElements-slice";
+import ErrorDialog from "../components/errorMessage";
 
 export default function Progetti() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
   const [formIsOpen, openForm, closeForm] = useToggleForm();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(false);
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -37,6 +42,9 @@ export default function Progetti() {
 
   const isCompleted = useAppSelector(
     (state) => state.formValuesReducer.value.isCompleted
+  );
+  const completedCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countCompleted
   );
 
   const formRef = useRef<HTMLDivElement>(null);
@@ -51,11 +59,11 @@ export default function Progetti() {
         const projectData = await getProjects();
         setData(projectData);
         dispatch(updateProjectsCount(projectData.length));
-
         setIsLoadingItems(false);
       } catch (error) {
         setIsLoadingItems(false);
         console.error(error);
+        setErrorDialog(true);
       }
     };
 
@@ -86,6 +94,7 @@ export default function Progetti() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
+          dispatch(updateCompletedCount(completedCount + 1));
         } else {
           [res] = await Promise.allSettled([
             submitProject({
@@ -163,6 +172,8 @@ export default function Progetti() {
             isLoadingItems && data.length === 0 && styles.circularProgress
           }`}
         >
+          <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
+
           {isLoadingItems && data.length === 0 && (
             <CircularProgress size={{ width: 20, height: 20 }} />
           )}

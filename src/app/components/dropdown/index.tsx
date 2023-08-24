@@ -16,8 +16,6 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({ data, isLoading }: DropdownProps) => {
-  const [text, setText] = useState<string>();
-
   const [open, setOpen] = useState<boolean>(false);
   const projectFor = useAppSelector(
     (state) => state.formValuesReducer.value.projectFor

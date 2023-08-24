@@ -18,13 +18,18 @@ import { TaskData } from "./utils/dataTypes";
 import { getTasks } from "./utils/fetchData";
 import CircularProgress from "./components/circularProgress";
 import MessageEmpty from "./components/messageEmpty";
-import { updateTaskCount } from "@/redux/features/countElements-slice";
+import {
+  updateCompletedCount,
+  updateTaskCount,
+} from "@/redux/features/countElements-slice";
+import ErrorDialog from "./components/errorMessage";
 
 export default function Home() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
   const [formIsOpen, openForm, closeForm] = useToggleForm();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
+  const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -34,6 +39,9 @@ export default function Home() {
   const note = useAppSelector((state) => state.formValuesReducer.value.note);
   const projectFor = useAppSelector(
     (state) => state.formValuesReducer.value.projectFor
+  );
+  const completedCount = useAppSelector(
+    (state) => state.countElementsReducer.value.countCompleted
   );
   const isCompleted = useAppSelector(
     (state) => state.formValuesReducer.value.isCompleted
@@ -53,6 +61,7 @@ export default function Home() {
       } catch (error) {
         setIsLoadingItems(false);
         console.error(error);
+        setErrorDialog(true);
       }
     };
 
@@ -85,6 +94,7 @@ export default function Home() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
+          dispatch(updateCompletedCount(completedCount + 1));
         } else {
           [res] = await Promise.allSettled([
             submitTask({
@@ -100,7 +110,6 @@ export default function Home() {
         if (res.status != "fulfilled") {
           console.log(res);
         }
-
         setIsLoading(false);
         closeForm();
         dispatch(resetState());
@@ -164,6 +173,7 @@ export default function Home() {
             isLoadingItems && data.length === 0 && styles.circularProgress
           }`}
         >
+          <ErrorDialog setOpen={setErrorDialog} open={errorDialog} />
           {isLoadingItems && data.length === 0 && (
             <CircularProgress size={{ width: 20, height: 20 }} />
           )}

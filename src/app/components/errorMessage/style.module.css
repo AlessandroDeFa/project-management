@@ -14,9 +14,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 300px;
-  max-height: 230px;
+  max-width: 350px;
+  max-height: 200px;
   padding: 1rem;
+  z-index: 10;
 }
 
 .AlertDialogContent:focus {
@@ -37,20 +38,15 @@
 
 .wrapperBtn {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: .8rem;
 }
 
 .button {
-  flex: 1;
   border: 0;
-  padding: .3rem 0;
+  padding: .3rem 2.5rem;
   border-radius: .3rem;
-  background-color: var(--bg-btn-alert-dialog);
-  color: var(--color-text-info);
-}
-
-.button.remove {
   background-color: #197ae3;
   color: #fff;
+  cursor: pointer;
 }
