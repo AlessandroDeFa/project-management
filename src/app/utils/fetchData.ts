@@ -1,5 +1,5 @@
 export async function getTasks() {
-  const res = await fetch("https://task-master-pm.vercel.app/api/get-tasks");
+  const res = await fetch("/api/get-tasks");
   if (!res.ok) {
     throw new Error("Errore durante la richiesta API");
   }
