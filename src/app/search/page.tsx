@@ -22,7 +22,7 @@ export default function Appunti() {
       <ToolBar disabledAddButton={true} />
       <div className={styles.container}>
         <div className={styles.flex}>
-          <h1 className={styles.title}>Risultati per "{query}" </h1>
+          <h1 className={styles.title}>Risultati per &quot;{query}&quot; </h1>
         </div>
         <div className={styles.completedInfo}>
           <p>

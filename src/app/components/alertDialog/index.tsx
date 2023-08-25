@@ -60,7 +60,7 @@ const AlertDialogCompleted = ({
                 {countCompleted === 1
                   ? `${countCompleted} elemento completato verrà eliminato `
                   : `${countCompleted} elementi completati verranno eliminati `}
-                dall'elenco. L'azione è irreversibile.
+                dall&apos;elenco. L&apos;azione è irreversibile.
               </AlertDialog.Description>
               <div className={styles.wrapperBtn}>
                 <AlertDialog.Cancel asChild>
