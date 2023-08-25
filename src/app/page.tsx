@@ -66,6 +66,7 @@ export default function Home() {
     };
 
     fetchTasks();
+    //eslint-disable-next-line
   }, [formSubmit]);
 
   const onSubmit = async (event: React.MouseEvent) => {
@@ -128,6 +129,7 @@ export default function Home() {
       dispatch(updateTaskCount(data.length));
       setShouldUpdateCount(false);
     }
+    //eslint-disable-next-line
   }, [data, shouldUpdateCount]);
 
   const moveToCompletedElements = (id: string) => {

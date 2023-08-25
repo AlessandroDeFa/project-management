@@ -46,6 +46,7 @@ export default function Completati() {
     };
 
     fetchTasks();
+    //eslint-disable-next-line
   }, []);
 
   const deleteCompletedElement = async (id: string) => {

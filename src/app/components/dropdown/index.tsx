@@ -30,6 +30,7 @@ export const Dropdown = ({ data, isLoading }: DropdownProps) => {
 
   useEffect(() => {
     dispatch(updateProjectFor(data[0]?.name));
+    //eslint-disable-next-line
   }, [data]);
 
   return (
@@ -69,6 +70,7 @@ export const Dropdown = ({ data, isLoading }: DropdownProps) => {
                 {data.map((project) => {
                   return (
                     <DropdownMenu.Item
+                      key={project.id}
                       data-clickable="true"
                       onSelect={(e) => onSelect(e)}
                       className={styles.menuItem}

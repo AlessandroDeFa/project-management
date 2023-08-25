@@ -101,6 +101,7 @@ export default function Tutti() {
     };
 
     fetchTasks();
+    //eslint-disable-next-line
   }, [refreshElements]);
 
   const deleteCompletedElement = async (id: string) => {
@@ -128,6 +129,7 @@ export default function Tutti() {
       dispatch(updateMemoCount(memos.length));
       dispatch(updateProjectsCount(projects.length));
     }
+    //eslint-disable-next-line
   }, [tasks, notes, memos, projects]);
 
   const moveToCompletedElements = (id: string, elementType: string) => {

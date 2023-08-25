@@ -67,6 +67,7 @@ export default function Progetti() {
     };
 
     fetchTasks();
+    //eslint-disable-next-line
   }, [formSubmit]);
 
   const onSubmit = async (event: React.MouseEvent) => {
@@ -126,6 +127,7 @@ export default function Progetti() {
       dispatch(updateProjectsCount(data.length));
       setShouldUpdateCount(false);
     }
+    //eslint-disable-next-line
   }, [data, shouldUpdateCount]);
 
   const moveToCompletedElements = (id: string) => {

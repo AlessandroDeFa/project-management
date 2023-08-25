@@ -46,6 +46,7 @@ export default function SearchBar() {
       }
     }, 500);
     return () => clearTimeout(timeoutId);
+    //eslint-disable-next-line
   }, [query]);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function SearchBar() {
         router.push(`/search?q=${encodedQuery}`);
       }
     }
+    //eslint-disable-next-line
   }, [values]);
 
   return (

@@ -80,6 +80,7 @@ export default function Sidebar() {
     };
 
     fetchCounts();
+    //eslint-disable-next-line
   }, []);
 
   return (

@@ -66,6 +66,7 @@ export default function Promemoria() {
     };
 
     fetchTasks();
+    //eslint-disable-next-line
   }, [formSubmit]);
 
   const onSubmit = async (event: React.MouseEvent) => {
@@ -126,6 +127,7 @@ export default function Promemoria() {
       dispatch(updateMemoCount(data.length));
       setShouldUpdateCount(false);
     }
+    //eslint-disable-next-line
   }, [data, shouldUpdateCount]);
 
   const moveToCompletedElements = (id: string) => {
