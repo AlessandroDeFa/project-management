@@ -50,13 +50,16 @@ export const submitNote = async ({
     isCompleted: isCompleted,
   };
 
-  const response = await fetch("http://localhost:3000/api/create-note", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(noteData),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/create-note",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(noteData),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante la creazione degli appunti");
   }
@@ -103,13 +106,16 @@ export const submitProject = async ({
     isCompleted: isCompleted,
   };
 
-  const response = await fetch("http://localhost:3000/api/create-project", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(projectData),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/create-project",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectData),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante la creazione del progetto");
   }
