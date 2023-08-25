@@ -65,7 +65,7 @@ export default function Appunti() {
     };
 
     fetchTasks();
-  }, [formSubmit, dispatch]);
+  }, [formSubmit]);
 
   const onSubmit = async (event: React.MouseEvent) => {
     const formValid =
@@ -127,7 +127,7 @@ export default function Appunti() {
       dispatch(updateNoteCount(data.length));
       setShouldUpdateCount(false);
     }
-  }, [data, shouldUpdateCount, dispatch]);
+  }, [data, shouldUpdateCount]);
 
   const moveToCompletedElements = (id: string) => {
     if (isLoading) {
