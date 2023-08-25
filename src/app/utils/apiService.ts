@@ -20,13 +20,16 @@ export const submitTask = async ({
     isCompleted: isCompleted,
   };
 
-  const response = await fetch("http://localhost:3000/api/create-task", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(taskData),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/create-task",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante la creazione del task");
   }
@@ -73,13 +76,16 @@ export const submitMemo = async ({
     isCompleted: isCompleted,
   };
 
-  const response = await fetch("http://localhost:3000/api/create-memo", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(memoData),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/create-memo",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(memoData),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante la creazione del promemoria");
   }
@@ -126,13 +132,16 @@ export const submitCompleted = async ({
     elementType: elementType,
   };
 
-  const response = await fetch("http://localhost:3000/api/insert-completed", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(completedElement),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/insert-completed",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(completedElement),
+    }
+  );
   if (!response.ok) {
     throw new Error(
       `Errore durante la completazione dell' elemento: ${elementType}`
@@ -144,7 +153,7 @@ export const submitCompleted = async ({
 
 export const deleteAllCompletedElements = async () => {
   const response = await fetch(
-    "http://localhost:3000/api/delete-all-completed",
+    "https://task-master-pm.vercel.app/api/delete-all-completed",
     {
       method: "DELETE",
       headers: {
@@ -158,39 +167,48 @@ export const deleteAllCompletedElements = async () => {
 };
 
 export const deletedSelectedElement = async (id: string) => {
-  const response = await fetch("http://localhost:3000/api/delete-completed", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/delete-completed",
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante l' eliminazione dell' elemento completato");
   }
 };
 
 export const moveToCompleted = async (id: string, elementType: string) => {
-  const response = await fetch("http://localhost:3000/api/move-to-completed", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id, elementType }),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/move-to-completed",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, elementType }),
+    }
+  );
   if (!response.ok) {
     throw new Error("Errore durante la completazione dell' elemento");
   }
 };
 
 export const getResultsFromQuery = async (query: string) => {
-  const response = await fetch("http://localhost:3000/api/get-results-query", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ query }),
-  });
+  const response = await fetch(
+    "https://task-master-pm.vercel.app/api/get-results-query",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Errore durante la ricerca");
