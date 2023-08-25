@@ -38,21 +38,14 @@ export default function Home() {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const [data, setData] = useState<TaskData[]>([]);
-  const name = useAppSelector((state) => state.formValuesReducer.value.name);
-  const note = useAppSelector((state) => state.formValuesReducer.value.note);
-  const projectFor = useAppSelector(
-    (state) => state.formValuesReducer.value.projectFor
+
+  const { name, note, projectFor, isCompleted } = useAppSelector(
+    (state) => state.formValuesReducer.value
   );
-  const completedCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countCompleted
-  );
-  const allElementsCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
+  const { countCompleted, countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
-  const isCompleted = useAppSelector(
-    (state) => state.formValuesReducer.value.isCompleted
-  );
   const formRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -101,7 +94,7 @@ export default function Home() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
-          dispatch(updateCompletedCount(completedCount + 1));
+          dispatch(updateCompletedCount(countCompleted + 1));
         } else {
           [res] = await Promise.allSettled([
             submitTask({
@@ -114,7 +107,7 @@ export default function Home() {
           ]);
         }
 
-        dispatch(updateAllElementsCount(allElementsCount + 1));
+        dispatch(updateAllElementsCount(countAllElements + 1));
 
         setIsLoading(false);
         closeForm();

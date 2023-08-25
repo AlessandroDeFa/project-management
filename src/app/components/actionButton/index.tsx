@@ -43,7 +43,7 @@ export default function ActionButton({
         currentPage === href ? styles.active : ""
       }`}
     >
-      <div>
+      <div className={styles.wrapperIconLabel}>
         <div
           className={styles.icon}
           style={{
@@ -52,10 +52,10 @@ export default function ActionButton({
         >
           <ActionIcon />
         </div>
-        <div>{label}</div>
+        <div className={styles.label}>{label}</div>
       </div>
 
-      <div>{elementCount}</div>
+      <div className={styles.elementCount}>{elementCount}</div>
     </Link>
   );
 }

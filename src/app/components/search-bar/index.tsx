@@ -51,7 +51,8 @@ export default function SearchBar() {
   useEffect(() => {
     if (values) {
       if (currentPath !== "/search") {
-        router.push(`/search?q=${query}`);
+        const encodedQuery = encodeURIComponent(query);
+        router.push(`/search?q=${encodedQuery}`);
       }
     }
   }, [values]);

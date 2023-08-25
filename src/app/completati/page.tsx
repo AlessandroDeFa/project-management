@@ -24,12 +24,8 @@ export default function Completati() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
-  const countCompleted = useAppSelector(
-    (state) => state.countElementsReducer.value.countCompleted
-  );
-
-  const countAllElements = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
+  const { countCompleted, countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
   const dispatch = useDispatch<AppDispatch>();

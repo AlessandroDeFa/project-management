@@ -19,15 +19,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body className={inter.className}>
         <ReduxProvider>
           <NextThemeProvider>
-            {/* <ThemeProvider> */}
             <div className={"wrapper"}>
               <Sidebar />
               <div className={"wrapperRight"}>{children}</div>
             </div>
-            {/* </ThemeProvider> */}
           </NextThemeProvider>
         </ReduxProvider>
       </body>

@@ -17,8 +17,8 @@ interface DropdownProps {
 
 export const Dropdown = ({ data, isLoading }: DropdownProps) => {
   const [open, setOpen] = useState<boolean>(false);
-  const projectFor = useAppSelector(
-    (state) => state.formValuesReducer.value.projectFor
+  const { projectFor } = useAppSelector(
+    (state) => state.formValuesReducer.value
   );
 
   const dispatch = useDispatch<AppDispatch>();

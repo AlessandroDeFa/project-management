@@ -44,9 +44,6 @@ export default function FormItem({ isLoading }: FormItemProps) {
   const isCompleted = useAppSelector(
     (state) => state.formValuesReducer.value.isCompleted
   );
-  const dueDate = useAppSelector(
-    (state) => state.formValuesReducer.value.duedate
-  );
   const currentDate = new Date();
 
   const year = currentDate.getFullYear();

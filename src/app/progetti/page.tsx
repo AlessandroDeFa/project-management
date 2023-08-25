@@ -39,18 +39,11 @@ export default function Progetti() {
 
   const [data, setData] = useState<ProjectData[]>([]);
 
-  const name = useAppSelector((state) => state.formValuesReducer.value.name);
-
-  const note = useAppSelector((state) => state.formValuesReducer.value.note);
-
-  const isCompleted = useAppSelector(
-    (state) => state.formValuesReducer.value.isCompleted
+  const { name, note, isCompleted } = useAppSelector(
+    (state) => state.formValuesReducer.value
   );
-  const completedCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countCompleted
-  );
-  const allElementsCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
+  const { countCompleted, countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
   const formRef = useRef<HTMLDivElement>(null);
@@ -100,7 +93,7 @@ export default function Progetti() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
-          dispatch(updateCompletedCount(completedCount + 1));
+          dispatch(updateCompletedCount(countCompleted + 1));
         } else {
           [res] = await Promise.allSettled([
             submitProject({
@@ -112,7 +105,7 @@ export default function Progetti() {
           ]);
         }
 
-        dispatch(updateAllElementsCount(allElementsCount + 1));
+        dispatch(updateAllElementsCount(countAllElements + 1));
 
         setIsLoading(false);
         closeForm();

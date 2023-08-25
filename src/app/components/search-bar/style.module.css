@@ -6,7 +6,7 @@
   background-color: var(--bg-searchbar);
   border: 1px solid var(--bg-border-search);
   border-radius: .5rem;
-  min-width: 190px;
+  /* min-width: 190px; */
 }
 
 .container span {
@@ -37,6 +37,12 @@
   outline: none;
   color: var(--color-text-input);
   font-weight: 500;
+}
+
+@media only screen and (min-width: 630px) {
+  .container {
+    min-width: 190px;
+  }
 }
 
 @media only screen and (min-width: 1000px) {

@@ -10,7 +10,6 @@ export default function Appunti() {
   const { query, values } = useAppSelector(
     (state) => state.queryValuesReducer.value
   );
-
   const countCompleted = values?.filter((item) => item.isCompleted);
 
   useEffect(() => {

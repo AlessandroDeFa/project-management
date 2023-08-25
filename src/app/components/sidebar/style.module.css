@@ -26,3 +26,19 @@
   border-top: 1px solid var(--bg-seperator-sidebar);
   gap: 1rem;
 }
+
+@media only screen and (max-width: 535px) {
+  .innerWrapper {
+    padding: 1.5rem 1rem 0 1rem;
+  }
+
+  .wrapperActionButtons {
+    gap: .5rem;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .wrapperCategories {
+    grid-template-columns: 1fr;
+  }
+}

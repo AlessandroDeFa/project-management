@@ -10,7 +10,7 @@
   border: 0;
   background-color: transparent;
   cursor: pointer;
-  min-width: 190px;
+
 }
 
 .wrapper.active {
@@ -36,6 +36,32 @@
 .icon svg {
   width: 17px;
   fill: white;
+}
+
+
+@media only screen and (max-width: 535px) {
+
+  .wrapper,
+  .wrapperIconLabel {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .wrapper {
+    gap: .5rem;
+  }
+}
+
+@media only screen and (min-width: 535px) {
+  .wrapper {
+    min-width: 155px;
+  }
+}
+
+@media only screen and (min-width: 630px) {
+  .wrapper {
+    min-width: 190px;
+  }
 }
 
 @media only screen and (min-width: 1000px) {

@@ -95,6 +95,8 @@ a {
   overflow: hidden;
   display: flex;
   border-radius: .6rem;
+  margin: .7rem;
+
 }
 
 .wrapperRight {

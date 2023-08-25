@@ -39,20 +39,11 @@ export default function Promemoria() {
 
   const [data, setData] = useState<MemoData[]>([]);
 
-  const name = useAppSelector((state) => state.formValuesReducer.value.name);
-  const note = useAppSelector((state) => state.formValuesReducer.value.note);
-  const isCompleted = useAppSelector(
-    (state) => state.formValuesReducer.value.isCompleted
+  const { name, note, isCompleted, duedate } = useAppSelector(
+    (state) => state.formValuesReducer.value
   );
-  const completedCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countCompleted
-  );
-  const allElementsCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
-  );
-
-  const dueDate = useAppSelector(
-    (state) => state.formValuesReducer.value.duedate
+  const { countCompleted, countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
   const formRef = useRef<HTMLDivElement>(null);
@@ -78,7 +69,7 @@ export default function Promemoria() {
   }, [formSubmit]);
 
   const onSubmit = async (event: React.MouseEvent) => {
-    const formValid = name !== "" && note !== "" && dueDate != null;
+    const formValid = name !== "" && note !== "" && duedate != null;
     const clickedElement = event.target as HTMLElement;
     const formWrapper = formRef.current;
     const clickableAttribute = clickedElement.getAttribute("data-clickable");
@@ -101,20 +92,20 @@ export default function Promemoria() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
-          dispatch(updateCompletedCount(completedCount + 1));
+          dispatch(updateCompletedCount(countCompleted + 1));
         } else {
           [res] = await Promise.allSettled([
             submitMemo({
               name: name,
               note: note,
-              dueDate: dueDate,
+              dueDate: duedate,
               isCompleted: isCompleted,
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
         }
 
-        dispatch(updateAllElementsCount(allElementsCount + 1));
+        dispatch(updateAllElementsCount(countAllElements + 1));
 
         setIsLoading(false);
         closeForm();

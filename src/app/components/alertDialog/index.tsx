@@ -8,6 +8,7 @@ import { CompletedElement } from "@/app/utils/dataTypes";
 import { updateCompletedCount } from "@/redux/features/countElements-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
+import Image from "next/image";
 
 interface AlertDialogCompletedProps {
   countCompleted: number;
@@ -46,6 +47,9 @@ const AlertDialogCompleted = ({
               animate="enter"
               exit="exit"
             >
+              <div className={styles.logo}>
+                <Image fill alt="logo" src={"/logo.jpeg"} />
+              </div>
               <AlertDialog.Title className={styles.AlertDialogTitle}>
                 Vuoi cancellare tutti gli elementi completati?
               </AlertDialog.Title>

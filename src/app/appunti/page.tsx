@@ -39,22 +39,11 @@ export default function Appunti() {
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-  const name = useAppSelector((state) => state.formValuesReducer.value.name);
-
-  const note = useAppSelector((state) => state.formValuesReducer.value.note);
-
-  const projectFor = useAppSelector(
-    (state) => state.formValuesReducer.value.projectFor
+  const { name, note, projectFor, isCompleted } = useAppSelector(
+    (state) => state.formValuesReducer.value
   );
-  const completedCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countCompleted
-  );
-  const allElementsCount = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
-  );
-
-  const isCompleted = useAppSelector(
-    (state) => state.formValuesReducer.value.isCompleted
+  const { countCompleted, countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
   const dispatch = useDispatch<AppDispatch>();
@@ -104,7 +93,7 @@ export default function Appunti() {
             }),
             new Promise((resolve) => setTimeout(resolve, 300)),
           ]);
-          dispatch(updateCompletedCount(completedCount + 1));
+          dispatch(updateCompletedCount(countCompleted + 1));
         } else {
           [res] = await Promise.allSettled([
             submitNote({
@@ -117,7 +106,7 @@ export default function Appunti() {
           ]);
         }
 
-        dispatch(updateAllElementsCount(allElementsCount + 1));
+        dispatch(updateAllElementsCount(countAllElements + 1));
 
         setIsLoading(false);
         closeForm();

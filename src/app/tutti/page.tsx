@@ -46,8 +46,8 @@ export default function Tutti() {
   const [memos, setMemo] = useState<MemoData[]>([]);
   const [projects, setProjects] = useState<ProjectData[]>([]);
 
-  const countElements = useAppSelector(
-    (state) => state.countElementsReducer.value.countAllElements
+  const { countAllElements } = useAppSelector(
+    (state) => state.countElementsReducer.value
   );
 
   const allArraysEmpty =
@@ -113,7 +113,7 @@ export default function Tutti() {
       setCompleted(completed.filter((item) => item.id !== id));
       setIsLoading(false);
       dispatch(updateCompletedCount(completed.length - 1));
-      dispatch(updateAllElementsCount(countElements - 1));
+      dispatch(updateAllElementsCount(countAllElements - 1));
     } catch (error) {
       console.error("Errore durante l'eliminazione:", error);
     }
@@ -194,7 +194,7 @@ export default function Tutti() {
               }}
             />
           )}
-          <span>{countElements}</span>
+          <span>{countAllElements}</span>
         </div>
 
         <div
