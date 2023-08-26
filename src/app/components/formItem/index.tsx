@@ -108,11 +108,13 @@ export default function FormItem({ isLoading }: FormItemProps) {
           <div className={styles.wrapperInfo}>
             <input
               type="text"
+              maxLength={15}
               placeholder="Nome"
               onChange={(e) => dispatch(updateName(e.target.value))}
             />
             <input
               type="text"
+              maxLength={70}
               placeholder="Note"
               onChange={(e) => dispatch(updateNote(e.target.value))}
             />
