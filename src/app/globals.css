@@ -112,3 +112,9 @@ main {
   flex-direction: column;
   position: relative;
 }
+
+@media only screen and (max-width: 570px) {
+  main {
+    padding: 1.5rem 0 0 1rem;
+  }
+}

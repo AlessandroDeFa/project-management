@@ -117,7 +117,7 @@ export default function Completati() {
             })}
           </AnimatePresence>
           {!isLoadingItems && data.length === 0 && (
-            <MessageEmpty message="Non hai elementi completati" />
+            <MessageEmpty message="Nessun elemento completato" />
           )}
         </div>
       </div>

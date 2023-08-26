@@ -5,6 +5,6 @@
   transform: translate(-50%, -50%);
   color: var(--bg-messageEmpty);
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: clamp(.9rem, 4vw - .2rem, 1.4rem);
   white-space: nowrap;
 }
