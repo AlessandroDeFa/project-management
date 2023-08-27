@@ -24,6 +24,7 @@ import {
   updateTaskCount,
 } from "@/redux/features/countElements-slice";
 import ErrorDialog from "./components/errorMessage";
+import scrollToForm from "./utils/scrollToForm";
 
 export default function Home() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
@@ -165,9 +166,14 @@ export default function Home() {
     }
   };
 
+  const formActive = () => {
+    openForm();
+    scrollToForm(formRef);
+  };
+
   return (
     <main>
-      <ToolBar openForm={openForm} />
+      <ToolBar openForm={formActive} />
       <div className={styles.container} onClick={(event) => onSubmit(event)}>
         <div className={styles.flex}>
           <h1 className={styles.title}>Incarichi</h1>

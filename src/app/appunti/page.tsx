@@ -24,6 +24,7 @@ import {
   updateNoteCount,
 } from "@/redux/features/countElements-slice";
 import ErrorDialog from "../components/errorMessage";
+import scrollToForm from "../utils/scrollToForm";
 
 export default function Appunti() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
@@ -164,9 +165,14 @@ export default function Appunti() {
     }
   };
 
+  const formActive = () => {
+    openForm();
+    scrollToForm(formRef);
+  };
+
   return (
     <main>
-      <ToolBar openForm={openForm} />
+      <ToolBar openForm={formActive} />
       <div className={styles.container} onClick={(event) => onSubmit(event)}>
         <div className={styles.flex}>
           <h1 className={styles.title}>Appunti</h1>

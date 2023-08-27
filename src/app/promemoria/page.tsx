@@ -24,6 +24,7 @@ import {
   updateMemoCount,
 } from "@/redux/features/countElements-slice";
 import ErrorDialog from "../components/errorMessage";
+import scrollToForm from "../utils/scrollToForm";
 
 export default function Promemoria() {
   const [formSubmit, setFormSubmit] = useState<boolean>(false);
@@ -163,9 +164,14 @@ export default function Promemoria() {
     }
   };
 
+  const formActive = () => {
+    openForm();
+    scrollToForm(formRef);
+  };
+
   return (
     <main>
-      <ToolBar openForm={openForm} />
+      <ToolBar openForm={formActive} />
       <div className={styles.container} onClick={(event) => onSubmit(event)}>
         <div className={styles.flex}>
           <h1 className={styles.title}>Promemoria</h1>
